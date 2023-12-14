@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="number" id="firstNumber" />
+    <input type="number" id="secondNumber" />
+    <!-- <button onClick="sendData()">Click to send Data</button> -->
+    
+    <script>
+        var interval;
+         function sendData() {
+            
+            const a =  Number(document.querySelector('#firstNumber').value);
+            const b =  Number(document.querySelector('#secondNumber').value);
+            const data = {
+                firstNumber:20,
+                secondNumber:25
+            };
+
+            interval = setInterval(async () => {
+                try {
+                const response = await fetch('http://localhost:5001/api/receiveData', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+                const result = await response.json();
+                console.log(result.sum);
+            } catch (error) {
+                console.error('Error sending data to server:', error);
+            }
+            }, 1000);
+            setTimeout(()=>{
+                clearInterval(interval);
+                
+            },10000);
+        }    
+        sendData();   
+        
+        
+    </script>
+</body>
+
+</html>
